@@ -1,8 +1,7 @@
 package br.com.zup.autor
 
 import io.micronaut.http.HttpResponse
-import io.micronaut.http.HttpResponse.notFound
-import io.micronaut.http.HttpResponse.ok
+import io.micronaut.http.HttpResponse.*
 import io.micronaut.http.annotation.*
 import io.micronaut.validation.Validated
 import javax.transaction.Transactional
@@ -31,5 +30,15 @@ class AutorController(val repository: AutorRepository) {
             return ok(DetalhesAutorResponse(autor))
         }
         return notFound()
+    }
+
+    @Delete(value = "/{id}")
+    fun deletarAutor(@PathVariable id:Long):HttpResponse<Any>{
+        var possivel = repository.findById(id)
+        if (possivel.isEmpty){
+            return notFound()
+        }
+        repository.delete(possivel.get())
+        return noContent()
     }
 }

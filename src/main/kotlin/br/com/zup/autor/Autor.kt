@@ -1,5 +1,6 @@
 package br.com.zup.autor
 
+import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -14,6 +15,7 @@ class Autor(
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Long?=null 
+    var id:Long?=null
+    @CreationTimestamp
     var criadoEm=LocalDateTime.now()
 }
