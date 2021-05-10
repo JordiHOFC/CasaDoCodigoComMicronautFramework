@@ -7,4 +7,5 @@ datasources:
     username: ${DB_USER:root}
     password: ${DB_USER:root}
 
+
 jpa.default.properties.hibernate.hbm2ddl.auto: update
