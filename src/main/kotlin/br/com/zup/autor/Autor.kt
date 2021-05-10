@@ -9,8 +9,8 @@ import javax.persistence.Id
 @Entity
 class Autor(
     val nome: String,
-    val descricao: String,
-    val email: String
+    var descricao: String,
+    var email: String
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

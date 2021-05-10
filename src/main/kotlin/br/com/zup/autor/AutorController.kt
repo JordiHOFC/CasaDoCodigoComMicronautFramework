@@ -15,7 +15,7 @@ class AutorController(val repository: AutorRepository) {
     fun cadastrar(@Body @Valid request: AutorRequest): HttpResponse<AutorResponse> {
         var autor = request.paraAutor()
         repository.save(autor)
-        return HttpResponse.ok(AutorResponse(autor.id, autor.nome))
+        return HttpResponse.ok(AutorResponse(autor))
     }
 
     @Get
@@ -23,12 +23,12 @@ class AutorController(val repository: AutorRepository) {
     fun listarAutores(@QueryValue(defaultValue = "") email: String): HttpResponse<Any> {
         if (email.isBlank()){
             var autores = repository.findAll()
-            return ok(autores.map { autor -> AutorResponse(autor.id,autor.nome)})
+            return ok(autores.map {autor -> DetalhesAutorResponse(autor)})
         }
         val possivelAutor = repository.findByEmail(email)
         if (possivelAutor.isPresent){
             var autor = possivelAutor.get()
-            return ok(AutorResponse(autor.id,autor.nome))
+            return ok(DetalhesAutorResponse(autor))
         }
         return notFound()
     }
