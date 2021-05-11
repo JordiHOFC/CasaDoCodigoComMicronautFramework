@@ -5,15 +5,26 @@ plugins {
     id("io.micronaut.application") version "1.5.0"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.4.32"
     id("org.jetbrains.kotlin.plugin.jpa") version "1.4.32"
+
 }
 
 version = "0.1"
 group = "br.com.zup"
 
+
+allOpen{
+    annotation("io.micronaut.http.annotation.Controller")
+}
+
+
+
+
 val kotlinVersion=project.properties.get("kotlinVersion")
 repositories {
     mavenCentral()
 }
+
+
 
 micronaut {
     runtime("netty")
@@ -21,6 +32,7 @@ micronaut {
     processing {
         incremental(true)
         annotations("br.com.zup.*")
+
     }
 }
 
@@ -35,13 +47,16 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+
     runtimeOnly("ch.qos.logback:logback-classic")
-   // runtimeOnly("com.h2database:h2")
+    runtimeOnly("com.h2database:h2")
     implementation("io.micronaut:micronaut-validation")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     //jpa
     runtimeOnly("mysql:mysql-connector-java")
+
+
 }
 
 

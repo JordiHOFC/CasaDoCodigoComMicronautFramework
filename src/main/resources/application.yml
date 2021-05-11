@@ -9,3 +9,4 @@ datasources:
 
 
 jpa.default.properties.hibernate.hbm2ddl.auto: update
+jpa.default.properties.hibernate.show-sql: true

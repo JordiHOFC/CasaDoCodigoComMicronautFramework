@@ -3,6 +3,7 @@ package br.com.zup.autor
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpResponse.*
 import io.micronaut.http.annotation.*
+import io.micronaut.http.uri.UriBuilder
 import io.micronaut.validation.Validated
 import javax.transaction.Transactional
 import javax.validation.Valid
@@ -14,11 +15,11 @@ class AutorController(val repository: AutorRepository) {
     fun cadastrar(@Body @Valid request: AutorRequest): HttpResponse<AutorResponse> {
         var autor = request.paraAutor()
         repository.save(autor)
-        return HttpResponse.ok(AutorResponse(autor))
+        val uri=UriBuilder.of("/autores/{id}").expand(mutableMapOf(Pair("id",autor.id)))
+        return HttpResponse.created(AutorResponse(autor),uri);
     }
 
     @Get
-    @Transactional
     fun listarAutores(@QueryValue(defaultValue = "") email: String): HttpResponse<Any> {
         if (email.isBlank()){
             var autores = repository.findAll()

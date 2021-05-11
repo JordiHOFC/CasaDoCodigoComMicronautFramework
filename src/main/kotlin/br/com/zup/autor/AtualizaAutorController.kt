@@ -4,6 +4,7 @@ import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpResponse.*
 import io.micronaut.http.annotation.*
 import io.micronaut.validation.Validated
+import javax.transaction.Transactional
 import javax.validation.Valid
 
 @Validated
@@ -11,6 +12,7 @@ import javax.validation.Valid
 class AtualizaAutorController(val repository: AutorRepository) {
 
     @Put
+    @Transactional
     fun atualizaAutor(@PathVariable id: Long, @Valid @Body request: AtualizaAutorRequest): HttpResponse<Any> {
         val possivelAutor = repository.findById(id)
         if(possivelAutor.isEmpty){
@@ -21,11 +23,12 @@ class AtualizaAutorController(val repository: AutorRepository) {
             email=request.email
             autor.descricao=request.descricao
         }
-        repository.update(autor)
+       // repository.update(autor)
         return ok(DetalhesAutorResponse(autor))
 
     }
     @Patch
+    @Transactional
     fun atualizaDescricaoAutor(@PathVariable id:Long, descricaoRequest:String):HttpResponse<Any>{
         val possivelAutor = repository.findById(id)
         if(possivelAutor.isEmpty){
@@ -33,7 +36,6 @@ class AtualizaAutorController(val repository: AutorRepository) {
         }
         var autor = possivelAutor.get()
         autor.apply { descricao=descricaoRequest }
-        repository.update(autor)
         return ok(DetalhesAutorResponse(autor))
     }
 }
